@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	</head>
+	<body>
+
+<canvas id="myCanvas" width="800" height="400">
+	your broswer no suppot ! 
+</canvas>
+
+
+<script type="text/javascript">
+	
+function setPoint(num, p, radius){
+	// 计算平均角度 [ 360度 ÷ 个数 ] 
+	var each_degree = 360/num;
+	// 临时数组
+	var arr = new Array(num);
+
+	// 开始计算每个圆点坐标
+	for(i=0;i<num;i++){
+
+		// 得出每个圆点需要变换的弧度
+		var radian = (i*each_degree)*Math.PI/180;
+		// 圆点坐标变换公式 [ x = radius * cos(degree) ,  y = radius * sin(degree) ]
+		var _x = Math.round(radius * Math.cos(radian));
+		var _y = Math.round(radius * Math.sin(radian));
+		// 基于圆心平移X,Y
+		arr[i] = {
+			x : _x + p["px"],
+			y : _y + p["py"],
+			degree : i*each_degree
+		}
+	}
+	arr.radius = radius;
+	arr.center = {};
+	arr.center.x = p["px"];
+	arr.center.y = p["py"];
+	// 返回带有坐标值的数组
+	return arr;
+}
+
+function rotate(arr, add_deg){
+	// x = radius * cos(degree+add_deg);
+	// y = radius * sin(degree+add_deg);
+	for(i=0;i<arr.length;i++){
+		var new_deg = arr[i].degree + add_deg;
+		var radian = new_deg * Math.PI/180;
+		var new_x = Math.round(arr.radius * Math.cos(radian));
+		var new_y = Math.round(arr.radius * Math.sin(radian));
+		arr[i].x = new_x + arr.center.x;
+		arr[i].y = new_y + arr.center.y;
+		arr[i].degree = new_deg;
+	}
+	return arr;
+}
+
+
+var canvas = document.getElementById("myCanvas");
+if(canvas.getContext){
+	var context = canvas.getContext('2d');
+	// 旋转速度
+	var rotate_deg = 0;
+	// 每个圆点大小
+	var size = 5;
+	// 生成1组圆点的坐标数据
+	var arr = setPoint( 20, {"px":150,"py":200}, 50);
+
+	// setInterval(function(){
+		// 擦除画布
+		context.fillStyle = "#333";
+		context.fillRect(0,0,canvas.width, canvas.height);
+		// 旋转函数
+		rotate(arr,2);
+		// 画圆点
+		for(i=0;i<arr.length;i++){
+			context.beginPath();
+			context.fillStyle = "#fff";
+			// context.fillText("Hello world", arr[i].x,arr[i].y);
+			console.log('arr[i].degree',arr[i].degree);
+			var s = "Hello world";
+			for(var j=0; j<s.length; j++) {
+				// console.log('yyy',arr[i].y);
+				context.rotate(arr[i].degree);
+				context.fillText(s[j],arr[i].x,arr[i].y*j*0.1);
+				context.fill();
+				
+			}
+		}
+	// },30);
+}
+</script>
+</body>
+</html>
