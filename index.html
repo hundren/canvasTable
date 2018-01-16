@@ -78,14 +78,13 @@ if(canvas.getContext){
 		for(i=0;i<arr.length;i++){
 			context.beginPath();
 			context.fillStyle = "#fff";
-			// context.fillText("Hello world", arr[i].x,arr[i].y);
-			console.log('arr[i].degree',arr[i].degree);
+			context.fillText("Hello world", arr[i].x,arr[i].y);
 			var s = "Hello world";
 			for(var j=0; j<s.length; j++) {
 				// console.log('yyy',arr[i].y);
-				context.rotate(arr[i].degree);
-				context.fillText(s[j],arr[i].x,arr[i].y*j*0.1);
-				context.fill();
+				// context.rotate(arr[i].degree);
+				// context.fillText(s[j],arr[i].x,arr[i].y*j*0.1);
+				// context.fill();
 				
 			}
 		}
