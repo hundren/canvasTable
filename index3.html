@@ -7,13 +7,13 @@
 <style>
     html,body{background: #273341;}
     #mycanvas{}  
-    .pie{width: 320px;height: 320px;margin: 0 auto;}
+    /* .pie{width: 320px;height: 320px;margin: 0 auto;} */
     img{width: 100%;display: none}
     .economy{text-align: center;transform: rotate(45deg);color: #fff;font-family: "微软雅黑";font-size: 14px;}
 </style>
 <body>
    <div class="pie">       
-    <canvas id="canvas" width="960" height="960" style="width:640px;height:640px;"></canvas>
+    <canvas id="canvas" width="960" height="960" style="width:960px;height:960px;"></canvas>
    </div>
 <!-- canvas的画布宽高（分辨率）是width和height，而style中的宽高是canvas在页面中显示的宽高，画布分辨率越高，绘制出来的图任意缩放也不会出现很大的锯齿 -->
 </body>
@@ -29,7 +29,7 @@ var mok_data = [
     {
         "信访来源": "市信访局",
         "返回日期": "2013-04-28",
-        "信访人": "陈用深",
+        "信访人": "陈用深12",
         "信访类型": "城镇拆迁",
         "受理日期": "2013-03-27",
         "信访区域": "禅城区",
@@ -43,7 +43,7 @@ var mok_data = [
     {
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深11",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "顺德区",
@@ -57,7 +57,7 @@ var mok_data = [
     {
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深10",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "禅城区",
@@ -71,7 +71,7 @@ var mok_data = [
     {
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深9",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "三水区",
@@ -84,7 +84,7 @@ var mok_data = [
 	},{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深8",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "高明区",
@@ -98,7 +98,7 @@ var mok_data = [
     ,{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深7",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "三水区",
@@ -112,7 +112,7 @@ var mok_data = [
     ,{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深6",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "禅城区",
@@ -126,7 +126,7 @@ var mok_data = [
     ,{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深5",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "禅城区",
@@ -140,7 +140,7 @@ var mok_data = [
     ,{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深4",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "高明区",
@@ -154,7 +154,7 @@ var mok_data = [
     ,{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深3",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "南海区",
@@ -168,7 +168,7 @@ var mok_data = [
     ,{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深2",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "南海区",
@@ -182,7 +182,7 @@ var mok_data = [
     ,{
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
-		"信访人": "陈用深",
+		"信访人": "陈用深1",
 		"信访类型": "城镇拆迁",
 		"受理日期": "2013-03-27",
 		"信访区域": "顺德区",
@@ -202,31 +202,37 @@ mok_data.forEach(function(e,i){
 })
 var transAreaCount = getAreaDe(areaCountArr);
 
-console.log('mok_data',mok_data.sort(compare("信访区域")));
 var newSortData = mok_data.sort(compare("信访区域"));
 
 // -------------------------------------------------------
 var canvas = document.getElementById('canvas');  
-var r_area = 280,r_width=80;
-var r_title = 280; 
-var r_man = 480;
+var r_area = 100,r_width=30;
+var r_title = 100; 
+var r_man = 280;
 var bgColor =  '#273341';
 var ctx = canvas.getContext('2d');
 if (canvas.getContext){
-    // 先根据数据比例绘制扇形占比
-    transAreaCount.forEach(function(e){
+	// 先根据数据比例绘制扇形占比
+	function draw(){
+		console.log('oko');
+		transAreaCount.forEach(function(e){
           ites(e.start,e.end,r_area,'#88acf0');
           drawCircularText(r_area,e.area,rads(e.start+10),rads(e.end-10),'center');
-    })
-    //内覆盖扇形背景圆2
-    ites(0,360,r_area - r_width,bgColor);
+		})
+		//内覆盖扇形背景圆2
+		ites(0,360,r_area - r_width,bgColor);
 
-    // 绘制上方文字
-    var verticalDeArr = setPoint(newSortData);
-    console.log('newSortData',newSortData);
-    newSortData.forEach(function(e,i){
-        drawVerticalText(e.信访标题,verticalDeArr[i],r_title);
-    })
+		// 绘制上方文字
+		var verticalDeArr = setPoint(newSortData);
+		newSortData.forEach(function(e,i){
+			drawVerticalText(e.信访标题,rads(verticalDeArr[i]),r_title);
+			drawVerticalText(e.信访人,rads(verticalDeArr[i]),r_man);
+		})
+	}
+	ctx.translate(circleCenter.x,circleCenter.y);  
+	draw();
 }
 </script>
+<script src="control.js"></script>
+
 </html>

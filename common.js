@@ -6,13 +6,13 @@
 function changeDeToXy(radius,radian){
     var _x = Math.round(radius * Math.cos(radian));
     var _y = Math.round(radius * Math.sin(radian));
-    return {x:_x+circleCenter.x,y:_y+circleCenter.y}
+    return {x:_x,y:_y}
 }
 //圆
 function ites(a,b,r,color){
     ctx.beginPath();
-    ctx.moveTo(circleCenter.x,circleCenter.y);
-    ctx.arc(circleCenter.x,circleCenter.y,r,rads(a),rads(b),false);
+    ctx.moveTo(0,0);
+    ctx.arc(0,0,r,rads(a),rads(b),false);
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
@@ -28,7 +28,7 @@ function ites(a,b,r,color){
     ctx.stroke();
 }
 function drawCircularText(s,string, startAngle, endAngle ,lv){
-    var fontSize = 40;
+    var fontSize = 15;
     var radius = s,
         angleDecrement = (startAngle - endAngle)/(string.length-1),
         angle = parseFloat(startAngle),
@@ -43,8 +43,10 @@ function drawCircularText(s,string, startAngle, endAngle ,lv){
         character = string.charAt(index);
         ctx.save();
         ctx.beginPath();
-        ctx.translate(circleCenter.x + Math.cos(angle) * (radius-fontSize),
-                      circleCenter.y + Math.sin(angle) * (radius-fontSize));
+        ctx.translate(Math.cos(angle) * (radius-fontSize),
+                      Math.sin(angle) * (radius-fontSize));
+      
+        
         ctx.rotate(Math.PI/2 + angle);
         ctx.fillText(character, 0, 0);
 //            ctx.strokeText(character, 0, 0);
@@ -55,10 +57,8 @@ function drawCircularText(s,string, startAngle, endAngle ,lv){
     ctx.restore();
 }
 function drawVerticalText(string,angle,radius){
-    console.log('string',string);
-    console.log('angle',angle);
     var rev_str = string.split("").reverse().join(""); 
-    var fontSize = 20,
+    var fontSize = 12,
     index = 0,
     character;
     ctx.save();
@@ -69,8 +69,8 @@ function drawVerticalText(string,angle,radius){
         ctx.save();
         ctx.beginPath();
         // 每个字的坐标
-        ctx.translate(circleCenter.x + Math.cos(angle) * (radius+fontSize*index),
-                      circleCenter.y + Math.sin(angle) * (radius+fontSize*index));
+        ctx.translate(Math.cos(angle) * (radius+fontSize*index),
+                      Math.sin(angle) * (radius+fontSize*index));
         ctx.rotate(Math.PI/2 + angle);
         // console.log('text_x',text_x,'text_y',text_y);
         ctx.fillText(character, 0, 0);
@@ -89,7 +89,6 @@ function setPoint(_arr){
 		// 基于圆心平移X,Y
 		arr[i] = i*each_degree;
 	}
-    console.log('arr',arr);
 	return arr;
 }
 // 记录重复的元素以及出现的次数
@@ -114,11 +113,9 @@ function getAreaDe(_arr){
     for (var i = 0; i < _res.length; i++) {
         var lastDe = eachDe[eachDe.length-1]+singleDe*_res[i][1];
         eachDe.push(eachDe[eachDe.length-1]+singleDe*_res[i][1]);
-        console.log('eachDe',eachDe);
         _newArr.push({"area":_res[i][0],"start":eachDe[eachDe.length-2],"end":eachDe[eachDe.length-1]-2});  
         eachDe.push(lastDe);
     } 
-    console.log(_newArr); 
     return _newArr
 }
 
