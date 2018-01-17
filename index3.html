@@ -23,6 +23,7 @@
     var circleCenter = {x:480,y:480};
 </script>
 <script src="common.js"></script>
+<script src="dataFiliter.js"></script>
 <script>
 // 模拟数据
 var mok_data = [
@@ -30,7 +31,7 @@ var mok_data = [
         "信访来源": "市信访局",
         "返回日期": "2013-04-28",
         "信访人": "陈用深12",
-        "信访类型": "城镇拆迁",
+        "信访类型": "房产类",
         "受理日期": "2013-03-27",
         "信访区域": "禅城区",
         "信访标题": "禅城区title1",
@@ -197,7 +198,7 @@ var mok_data = [
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
 		"信访人": "陈用深1",
-		"信访类型": "城镇拆迁",
+		"信访类型": "建筑类",
 		"受理日期": "2013-03-27",
 		"信访区域": "顺德区",
 		"信访标题": "顺德区title4",
@@ -211,7 +212,7 @@ var mok_data = [
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
 		"信访人": "陈用深1",
-		"信访类型": "城镇拆迁",
+		"信访类型": "房产类",
 		"受理日期": "2013-03-27",
 		"信访区域": "顺德区",
 		"信访标题": "顺德区title4",
@@ -225,7 +226,7 @@ var mok_data = [
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
 		"信访人": "陈用深1",
-		"信访类型": "城镇拆迁",
+		"信访类型": "工程招投标类",
 		"受理日期": "2013-03-27",
 		"信访区域": "顺德区",
 		"信访标题": "顺德区title4",
@@ -239,7 +240,7 @@ var mok_data = [
 		"信访来源": "市信访局",
 		"返回日期": "2013-04-28",
 		"信访人": "陈用深1",
-		"信访类型": "城镇拆迁",
+		"信访类型": "人民防空工程类",
 		"受理日期": "2013-03-27",
 		"信访区域": "顺德区",
 		"信访标题": "顺德区title4",
@@ -252,42 +253,62 @@ var mok_data = [
 ];
 // 数据整理
 // 合并重复地区和个数
-var areaCountArr = [];
+var areaCountArr = [],titleTypeArr = [];
 mok_data.forEach(function(e,i){
-    areaCountArr.push(e.信访区域);
+	areaCountArr.push(e.信访区域);
+	titleTypeArr.push(e.信访类型);
 })
-var transAreaCount = getAreaDe(areaCountArr);
+var getCount = new getDoubleArr();
+var transAreaCount = getCount.getAreaDe(areaCountArr);
 
 var newSortData = mok_data.sort(compare("信访区域"));
+// 数据分类归类
+var transTitleTypeColor = getCount.getTypeColor(titleTypeArr);
+console.log('transTitleTypeCount',transTitleTypeColor);
 
 // -------------------------------------------------------
 var canvas = document.getElementById('canvas');  
 var r_area = 100,r_width=30;
-var r_title = 100; 
-var r_man = 280;
+var r_title = 200; 
+var r_man = 380;
+var r_week = 280;
 var bgColor =  '#273341';
+var lineColor = '#f9f9f9';
 var ctx = canvas.getContext('2d');
 if (canvas.getContext){
 	// 先根据数据比例绘制扇形占比
-	function draw(){
+	function draw(angleSum){
 		transAreaCount.forEach(function(e){
-          ites(e.start,e.end,r_area,'#88acf0');
+          ites(0,0,e.start,e.end,r_area,'#88acf0');
           drawCircularText(r_area,e.area,rads(e.start+10),rads(e.end-10),'center');
 		})
 		//内覆盖扇形背景圆2
-		ites(0,360,r_area - r_width,bgColor);
+		ites(0,0,0,360,r_area - r_width,bgColor);
 
 		// 绘制上方文字
 		var verticalDeArr = setPoint(newSortData);
 		newSortData.forEach(function(e,i){
-			drawVerticalText(e.信访标题,rads(verticalDeArr[i]),r_title);
-			drawVerticalText(e.信访人,rads(verticalDeArr[i]),r_man);
+			drawVerticalText(e.信访标题,rads(verticalDeArr[i]),r_title+20,'title');
+			drawVerticalText(e.信访人,rads(verticalDeArr[i]),r_man+10,'man');
+			drawLine(rads(verticalDeArr[i]),r_man,40,['#fff','#333']);
+			drawTitlePoint(rads(verticalDeArr[i]),r_title+10);
+			// 周的基线
+			drawLine(rads(verticalDeArr[i]),r_title,r_title-r_area-5,lineColor);
+			// 渲染各周的长度
+			drawWeekLine(rads(verticalDeArr[i]),r_area,e.信访类型,e.返回日期,e.受理日期,e.登记时间,transTitleTypeColor);
+			newSortData[i].coordinate = changeDeToXy(r_area,rads(verticalDeArr[i]-angleSum));
 		})
-	
+		itesOutLine(0,360,r_man-10,lineColor);
+		// 周的2条线
+		itesOutLine(0,360,r_area+5,lineColor);
+		itesOutLine(0,360,r_title,lineColor);
 	}
 	ctx.translate(circleCenter.x,circleCenter.y);  
-	draw();
-	coverCircle(0);
+	draw(0);
+
+	// 渲染颜色
+	console.log('color',getCateColor('人民防空工程类',transTitleTypeColor));
+	// coverCircle(0);
 }
 </script>
 <script src="control.js"></script>

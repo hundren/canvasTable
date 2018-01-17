@@ -51,7 +51,8 @@ function rotateCan(angle){
     ctx.clearRect(-circleCenter.x,-circleCenter.y,canvas.width,canvas.height);
     ctx.rotate(rads(angle));
     angleSum += angle;
-    draw();
-    coverCircle(angleSum);
+    draw(angleSum);
+    // coverCircle(angleSum);
+    
 }  
 

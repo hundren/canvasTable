@@ -6,25 +6,41 @@
 function changeDeToXy(radius,radian){
     var _x = Math.round(radius * Math.cos(radian));
     var _y = Math.round(radius * Math.sin(radian));
-    return {x:_x,y:_y}
+    var xyArr = [_x,_y];
+    return JSON.stringify(xyArr);
 }
 //圆
-function ites(a,b,r,color){
+function ites(x,y,a,b,r,color){
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.arc(0,0,r,rads(a),rads(b),false);
+    ctx.arc(x,y,r,rads(a),rads(b),false);
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
 }
+// 圆不填充
+function itesOutLine(a,b,r,color){
+    ctx.beginPath();
+    ctx.arc(0,0,r,0,2*Math.PI);
+    ctx.strokeStyle = color;
+
+    ctx.stroke();
+}
   //线
-  function line(a,b,c,d){
+  function line(a,b,c,d,color,lineWidth){
     ctx.beginPath();
     ctx.moveTo(a,b);
     ctx.lineTo(c,d);
-    ctx.strokeStyle=bgColor;
+    if(typeof color == 'object'){
+        var gradient=ctx.createLinearGradient(a,b,c,d);
+        gradient.addColorStop("0",color[0]);
+        gradient.addColorStop("1",color[1]);
+        ctx.strokeStyle = gradient;
+    }else{
+        ctx.strokeStyle = color;
+    }
     ctx.closePath();
-    ctx.lineWidth =10;
+    ctx.lineWidth = lineWidth;
     ctx.stroke();
 }
 // 遮盖扇形
@@ -69,11 +85,13 @@ function drawCircularText(s,string, startAngle, endAngle ,lv){
 //            ctx.strokeText(character, 0, 0);
         angle -= angleDecrement;
         index++;
+        ctx.closePath();
         ctx.restore();
     }
     ctx.restore();
 }
-function drawVerticalText(string,angle,radius){
+
+function drawVerticalText(string,angle,radius,type){
     var rev_str = string.split("").reverse().join(""); 
     var fontSize = 12,
     index = 0,
@@ -81,6 +99,7 @@ function drawVerticalText(string,angle,radius){
     ctx.save();
     ctx.fillStyle = 'white';
     ctx.font = fontSize + 'px 微软雅黑';
+    ctx.textAlign = 'center';
     while (index < rev_str.length) {
         character = rev_str.charAt(index);
         ctx.save();
@@ -92,10 +111,42 @@ function drawVerticalText(string,angle,radius){
         // console.log('text_x',text_x,'text_y',text_y);
         ctx.fillText(character, 0, 0);
         index++;
+        ctx.closePath();
         ctx.restore();
     }
     ctx.restore();
 }
+
+function drawLine(angle,radius,lineLong,lineColor,type){
+    ctx.save();
+    var startX = Math.cos(angle) * radius;
+    var startY = Math.sin(angle) * radius;
+    var endX = Math.cos(angle) * (radius-lineLong);
+    var emdY = Math.sin(angle) * (radius-lineLong);
+    line(startX,startY,endX,emdY,lineColor,1,type)
+    ctx.restore();
+}
+
+function drawWeekLine(angle,radius,cat,time1,time2,time3,transTitleTypeColor){
+    ctx.save();
+    // todo增加根据时间判断linlong初始值分析
+    var linelong = 30;
+    var startX = Math.cos(angle) * (radius + 10);
+    var startY = Math.sin(angle) * (radius + 10);
+    var endX = Math.cos(angle) * (radius+30);
+    var emdY = Math.sin(angle) * (radius+30);
+    line(startX,startY,endX,emdY,[getCateColor(cat,transTitleTypeColor)+'70',getCateColor(cat,transTitleTypeColor)],10)
+    ctx.restore();
+}
+
+function drawTitlePoint(angle,radius){
+    ctx.save();
+    var startX = Math.cos(angle) * radius;
+    var startY = Math.sin(angle) * radius;
+    ites(startX,startY,0,360,2,'#fff');
+    ctx.restore();
+}
+
 function setPoint(_arr){
 	// 计算平均角度 [ 360度 ÷ 个数 ] 
 	var each_degree = 360/_arr.length;
@@ -108,44 +159,14 @@ function setPoint(_arr){
 	}
 	return arr;
 }
-// 记录重复的元素以及出现的次数
-function getAreaDe(_arr){
-    var _res = []; //
-    var arrLength = _arr.length;
-    var singleDe = 360 / arrLength;
-    _arr.sort();  
-    for (var i = 0; i < _arr.length;) {  
-        var count = 0;  
-        for (var j = i; j < _arr.length; j++) {  
-            if (_arr[i] == _arr[j]) {  
-                count++;  
-            }  
-        }  
-        _res.push([_arr[i], count]);  
-        i += count;  
-    }  
-    //_res 二维数维中保存了 值和值的重复数  
-    var _newArr = [];
-    var eachDe = [0];  
-    for (var i = 0; i < _res.length; i++) {
-        var lastDe = eachDe[eachDe.length-1]+singleDe*_res[i][1];
-        eachDe.push(eachDe[eachDe.length-1]+singleDe*_res[i][1]);
-        _newArr.push({"area":_res[i][0],"start":eachDe[eachDe.length-2],"end":eachDe[eachDe.length-1]-2});  
-        eachDe.push(lastDe);
-    } 
-    return _newArr
-}
 
-// 数组对象排序
-var compare = function (prop) {
-    return function (obj1, obj2) {
-        var val1 = obj1[prop];
-        var val2 = obj2[prop];if (val1 < val2) {
-            return -1;
-        } else if (val1 > val2) {
-            return 1;
-        } else {
-            return 0;
-        }            
-    } 
-}
+
+var getCateColor = function(category,transTitleTypeColor) {
+    var color = "#fff";
+    transTitleTypeColor.forEach(function(e){
+        if(e.type == category){
+            color = e.color;
+        }
+    });
+    return color;
+};
