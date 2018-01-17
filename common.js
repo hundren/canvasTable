@@ -27,6 +27,23 @@ function ites(a,b,r,color){
     ctx.lineWidth =10;
     ctx.stroke();
 }
+// 遮盖扇形
+function coverCircle(angleSum){
+    // 生产遮盖层
+    // 开始一条新路径
+    ctx.save();
+    ctx.rotate(rads(-angleSum));
+    ctx.beginPath();
+    // 移动到圆心
+    ctx.moveTo(0, 0);
+    // 绘制圆弧
+    ctx.arc(0, 0, 500, Math.PI/180*340, Math.PI/180*200);
+    // 闭合路径
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+    
+}
 function drawCircularText(s,string, startAngle, endAngle ,lv){
     var fontSize = 15;
     var radius = s,

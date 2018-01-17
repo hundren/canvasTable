@@ -13,7 +13,7 @@
 </style>
 <body>
    <div class="pie">       
-    <canvas id="canvas" width="960" height="960" style="width:960px;height:960px;"></canvas>
+	<canvas id="canvas" width="960" height="960" style="width:960px;height:960px;"></canvas>
    </div>
 <!-- canvas的画布宽高（分辨率）是width和height，而style中的宽高是canvas在页面中显示的宽高，画布分辨率越高，绘制出来的图任意缩放也不会出现很大的锯齿 -->
 </body>
@@ -193,6 +193,62 @@ var mok_data = [
 		"ID": "SDJSJID9467566",
 		"relationIndex": []
 	}
+	,{
+		"信访来源": "市信访局",
+		"返回日期": "2013-04-28",
+		"信访人": "陈用深1",
+		"信访类型": "城镇拆迁",
+		"受理日期": "2013-03-27",
+		"信访区域": "顺德区",
+		"信访标题": "顺德区title4",
+		"登记时间": "2013-03-27",
+		"登记人": "陈翠婷",
+		"承办单位名称": "禅城区国土城建和水务局 房地产市场监管科 房产管理科 ",
+		"ID": "SDJSJID9467566",
+		"relationIndex": []
+	}
+	,{
+		"信访来源": "市信访局",
+		"返回日期": "2013-04-28",
+		"信访人": "陈用深1",
+		"信访类型": "城镇拆迁",
+		"受理日期": "2013-03-27",
+		"信访区域": "顺德区",
+		"信访标题": "顺德区title4",
+		"登记时间": "2013-03-27",
+		"登记人": "陈翠婷",
+		"承办单位名称": "禅城区国土城建和水务局 房地产市场监管科 房产管理科 ",
+		"ID": "SDJSJID9467566",
+		"relationIndex": []
+	}
+	,{
+		"信访来源": "市信访局",
+		"返回日期": "2013-04-28",
+		"信访人": "陈用深1",
+		"信访类型": "城镇拆迁",
+		"受理日期": "2013-03-27",
+		"信访区域": "顺德区",
+		"信访标题": "顺德区title4",
+		"登记时间": "2013-03-27",
+		"登记人": "陈翠婷",
+		"承办单位名称": "禅城区国土城建和水务局 房地产市场监管科 房产管理科 ",
+		"ID": "SDJSJID9467566",
+		"relationIndex": []
+	}
+	,{
+		"信访来源": "市信访局",
+		"返回日期": "2013-04-28",
+		"信访人": "陈用深1",
+		"信访类型": "城镇拆迁",
+		"受理日期": "2013-03-27",
+		"信访区域": "顺德区",
+		"信访标题": "顺德区title4",
+		"登记时间": "2013-03-27",
+		"登记人": "陈翠婷",
+		"承办单位名称": "禅城区国土城建和水务局 房地产市场监管科 房产管理科 ",
+		"ID": "SDJSJID9467566",
+		"relationIndex": []
+	}
 ];
 // 数据整理
 // 合并重复地区和个数
@@ -214,7 +270,6 @@ var ctx = canvas.getContext('2d');
 if (canvas.getContext){
 	// 先根据数据比例绘制扇形占比
 	function draw(){
-		console.log('oko');
 		transAreaCount.forEach(function(e){
           ites(e.start,e.end,r_area,'#88acf0');
           drawCircularText(r_area,e.area,rads(e.start+10),rads(e.end-10),'center');
@@ -228,9 +283,11 @@ if (canvas.getContext){
 			drawVerticalText(e.信访标题,rads(verticalDeArr[i]),r_title);
 			drawVerticalText(e.信访人,rads(verticalDeArr[i]),r_man);
 		})
+	
 	}
 	ctx.translate(circleCenter.x,circleCenter.y);  
 	draw();
+	coverCircle(0);
 }
 </script>
 <script src="control.js"></script>
