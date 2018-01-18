@@ -43,7 +43,7 @@ function itesOutLine(a,b,r,color){
     ctx.lineWidth = lineWidth;
     ctx.stroke();
 }
-// 遮盖扇形
+// 遮盖扇形和绘制线
 function coverCircle(angleSum){
     // 生产遮盖层
     // 开始一条新路径
@@ -54,9 +54,11 @@ function coverCircle(angleSum){
     ctx.moveTo(0, 0);
     // 绘制圆弧
     ctx.arc(0, 0, 500, Math.PI/180*340, Math.PI/180*200);
+
     // 闭合路径
     ctx.closePath();
     ctx.fill();
+    InstitutionList(ctx,newSortData)
     ctx.restore();
     
 }

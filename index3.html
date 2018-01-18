@@ -24,6 +24,7 @@
 </script>
 <script src="common.js"></script>
 <script src="dataFiliter.js"></script>
+<script src="makeLine.js"></script>
 <script>
 // 模拟数据
 var mok_data = [
@@ -37,7 +38,7 @@ var mok_data = [
         "信访标题": "禅城区title1",
         "登记时间": "2013-03-27",
         "登记人": "陈翠婷",
-        "承办单位名称": "禅城区国土城建和水务局 房地产市场监管科 房产管理科 ",
+        "承办单位名称": " 房地产市场监管科 房产管理科 ",
         "ID": "SDJSJID9467566",
         "relationIndex": []
     },
@@ -215,10 +216,10 @@ var mok_data = [
 		"信访类型": "房产类",
 		"受理日期": "2013-03-27",
 		"信访区域": "顺德区",
-		"信访标题": "顺德区title4",
+		"信访标题": "顺德区title4444",
 		"登记时间": "2013-03-27",
 		"登记人": "陈翠婷",
-		"承办单位名称": "禅城区国土城建和水务局 房地产市场监管科 房产管理科 ",
+		"承办单位名称": " 房产管理科 ",
 		"ID": "SDJSJID9467566",
 		"relationIndex": []
 	}
@@ -296,19 +297,24 @@ if (canvas.getContext){
 			drawLine(rads(verticalDeArr[i]),r_title,r_title-r_area-5,lineColor);
 			// 渲染各周的长度
 			drawWeekLine(rads(verticalDeArr[i]),r_area,e.信访类型,e.返回日期,e.受理日期,e.登记时间,transTitleTypeColor);
-			newSortData[i].coordinate = changeDeToXy(r_area,rads(verticalDeArr[i]-angleSum));
+			newSortData[i].coordinate = changeDeToXy(r_area-r_width,rads(verticalDeArr[i]+angleSum));
+			newSortData[i].radian = verticalDeArr[i]+angleSum;
 		})
+		// console.log('newSortData',newSortData);
 		itesOutLine(0,360,r_man-10,lineColor);
 		// 周的2条线
 		itesOutLine(0,360,r_area+5,lineColor);
 		itesOutLine(0,360,r_title,lineColor);
+		
 	}
 	ctx.translate(circleCenter.x,circleCenter.y);  
 	draw(0);
 
 	// 渲染颜色
 	console.log('color',getCateColor('人民防空工程类',transTitleTypeColor));
-	// coverCircle(0);
+	coverCircle(0);
+
+
 }
 </script>
 <script src="control.js"></script>

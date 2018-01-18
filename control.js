@@ -52,7 +52,6 @@ function rotateCan(angle){
     ctx.rotate(rads(angle));
     angleSum += angle;
     draw(angleSum);
-    // coverCircle(angleSum);
-    
+    coverCircle(angleSum);
 }  
 
